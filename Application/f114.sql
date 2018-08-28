@@ -27,7 +27,7 @@ prompt APPLICATION 114 - ZaiKo STARTER
 -- Application Export:
 --   Application:     114
 --   Name:            ZaiKo STARTER
---   Date and Time:   11:20 火曜日 8月 28, 2018
+--   Date and Time:   11:40 火曜日 8月 28, 2018
 --   Exported By:     MURAKAMI@HEARTIS-SC.CO.JP
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -115,8 +115,8 @@ wwv_flow_api.create_flow(
 ,p_substitution_value_01=>unistr('\54C1\756A')
 ,p_substitution_string_02=>'T_FIELD_NAME2'
 ,p_substitution_value_02=>unistr('\54C1\540D')
-,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180828111857'
+,p_last_updated_by=>'MURAKAMI@HEARTIS-SC.CO.JP'
+,p_last_upd_yyyymmddhh24miss=>'20180828113752'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>2
 ,p_ui_type_name => null
@@ -14844,8 +14844,8 @@ wwv_flow_api.create_page(
 ,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
 ,p_autocomplete_on_off=>'OFF'
 ,p_page_template_options=>'#DEFAULT#'
-,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180828111857'
+,p_last_updated_by=>'MURAKAMI@HEARTIS-SC.CO.JP'
+,p_last_upd_yyyymmddhh24miss=>'20180828113752'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(11696857203942345)
@@ -15080,7 +15080,7 @@ wwv_flow_api.create_page_button(
 ,p_button_template_id=>wwv_flow_api.id(22304141350654528924)
 ,p_button_is_hot=>'Y'
 ,p_button_image_alt=>unistr('\68DA\5378\5B9F\7E3E\4E00\62EC\66F4\65B0')
-,p_button_position=>'BELOW_BOX'
+,p_button_position=>'RIGHT_OF_IR_SEARCH_BAR'
 ,p_button_redirect_url=>'javascript:apex.confirm(''全レコードの理論在庫を実棚在庫で更新します。\nよろしいですか？'',''UPDATE_INVENTORY_STOCK'');'
 ,p_button_condition=>'PKG_ZK_APP.fnc_IsInventoryOpen'
 ,p_button_condition_type=>'PLSQL_EXPRESSION'
