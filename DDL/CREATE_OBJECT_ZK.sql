@@ -305,9 +305,9 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
  
 	as 
  
-	    l_user    T_PIC_MASTER_TO.T_PIC%type := upper(p_username); 
-	    l_secret  T_PIC_MASTER_TO.T_PASSWORD%type; 
-	    l_cred    T_PIC_MASTER_TO.T_PASSWORD%type; 
+	    l_user    T_PIC_MASTER_ZK.T_PIC%type := upper(p_username); 
+	    l_secret  T_PIC_MASTER_ZK.T_PASSWORD%type; 
+	    l_cred    T_PIC_MASTER_ZK.T_PASSWORD%type; 
  
 	begin 
 	    select 
@@ -317,7 +317,7 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
 	    	l_user, 
 	    	l_secret 
 	    from 
-	    	T_PIC_MASTER_TO 
+	    	T_PIC_MASTER_ZK 
 	    where 
 	    	upper(T_PIC) = p_username; 
  
@@ -348,7 +348,7 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
     ) 
     AS 
         --ïœêîêÈåæ 
-        strPicName    T_PIC_MASTER_TO.T_PIC_NAME%TYPE; 
+        strPicName    T_PIC_MASTER_ZK.T_PIC_NAME%TYPE; 
  
         strLocationName    T_LOCATION_MASTER_ZK.T_LOCATION_NAME%TYPE; 
  
@@ -368,7 +368,7 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
                     T_PIC_NAME 
                     INTO strPicName 
                 FROM 
-                    T_PIC_MASTER_TO 
+                    T_PIC_MASTER_ZK 
                 WHERE 
                     T_PIC = strPic; 
  
