@@ -1,3 +1,4 @@
+--Table--------------------------------
 CREATE TABLE  "T_INITIAL_ZK" 
    (	"T_INITIAL_ID" NUMBER, 
 	"T_INITIAL_VALUE" VARCHAR2(255), 
@@ -41,18 +42,6 @@ CREATE TABLE  "T_IN_OUT_ZK"
    )
 /
 
-CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_IN_OUT_ZK" 
-  before insert on "T_IN_OUT_ZK"               
-  for each row  
-begin   
-  if :new."ID" is null then 
-    select "T_IN_OUT_ZK_SEQ".nextval into :new."ID" from sys.dual; 
-  end if; 
-end; 
-
-/
-ALTER TRIGGER  "bi_T_IN_OUT_ZK" ENABLE
-/
 CREATE TABLE  "T_IN_OUT_ZK_BACKUP" 
    (	"ID" NUMBER, 
 	"T_TIME" TIMESTAMP (6) WITH TIME ZONE, 
@@ -79,19 +68,6 @@ CREATE TABLE  "T_IN_OUT_ZK_BACKUP"
 	 CONSTRAINT "T_IN_OUT_ZK_BACKUP_PK" PRIMARY KEY ("ID")
   USING INDEX  ENABLE
    )
-/
-
-CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_IN_OUT_ZK_BACKUP" 
-  before insert on "T_IN_OUT_ZK_BACKUP"               
-  for each row  
-begin   
-  if :new."ID" is null then 
-    select "T_IN_OUT_ZK_BACKUP_SEQ".nextval into :new."ID" from sys.dual; 
-  end if; 
-end; 
-
-/
-ALTER TRIGGER  "bi_T_IN_OUT_ZK_BACKUP" ENABLE
 /
 CREATE TABLE  "T_LOCATION_MASTER_ZK" 
    (	"T_LOCATION_ID" VARCHAR2(30), 
@@ -127,19 +103,6 @@ CREATE TABLE  "T_NOT_ENTRY_ZK"
 	 CONSTRAINT "T_NOT_ENTRY_ZK_PK" PRIMARY KEY ("ID") DISABLE
    )
 /
-
-CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_NOT_ENTRY_ZK" 
-  before insert on "T_NOT_ENTRY_ZK"               
-  for each row  
-begin   
-  if :new."ID" is null then 
-    select "T_NOT_ENTRY_ZK_SEQ".nextval into :new."ID" from sys.dual; 
-  end if; 
-end;
-
-/
-ALTER TRIGGER  "bi_T_NOT_ENTRY_ZK" ENABLE
-/
 CREATE TABLE  "T_PIC_MASTER_ZK" 
    (	"T_PIC" VARCHAR2(255) NOT NULL ENABLE, 
 	"T_PIC_NAME" VARCHAR2(255) NOT NULL ENABLE, 
@@ -174,19 +137,6 @@ CREATE TABLE  "T_PRODUCTS_ZK"
   USING INDEX  ENABLE
    )
 /
-
-CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_PRODUCTS_ZK" 
-  before insert on "T_PRODUCTS_ZK"               
-  for each row  
-begin   
-  if :new."ID" is null then 
-    select "T_PRODUCTS_ZK_SEQ".nextval into :new."ID" from sys.dual; 
-  end if; 
-end; 
-
-/
-ALTER TRIGGER  "bi_T_PRODUCTS_ZK" ENABLE
-/
 CREATE TABLE  "T_PRODUCTS_ZK_BACKUP" 
    (	"ID" NUMBER, 
 	"T_LOCATION_ID" VARCHAR2(255), 
@@ -204,19 +154,6 @@ CREATE TABLE  "T_PRODUCTS_ZK_BACKUP"
 	 CONSTRAINT "T_PRODUCTS_ZK_BACKUP_PK" PRIMARY KEY ("ID")
   USING INDEX  ENABLE
    )
-/
-
-CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_PRODUCTS_ZK_BACKUP" 
-  before insert on "T_PRODUCTS_ZK_BACKUP"               
-  for each row  
-begin   
-  if :new."ID" is null then 
-    select "T_PRODUCTS_ZK_BACKUP_SEQ".nextval into :new."ID" from sys.dual; 
-  end if; 
-end; 
-
-/
-ALTER TRIGGER  "bi_T_PRODUCTS_ZK_BACKUP" ENABLE
 /
 CREATE TABLE  "T_PRODUCT_MASTER_ZK" 
    (	"T_FIELD1" VARCHAR2(255), 
@@ -241,12 +178,12 @@ CREATE TABLE  "T_PRODUCT_MASTER_ZK_BACKUP"
    )
 /
 
---SEQ
+--SEQUENCE-------------------------------------------
  CREATE SEQUENCE   "T_IN_OUT_ZK_BACKUP_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL
 /
- CREATE SEQUENCE   "T_IN_OUT_ZK_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 81 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL
+ CREATE SEQUENCE   "T_IN_OUT_ZK_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 101 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL
 /
- CREATE SEQUENCE   "T_NOT_ENTRY_ZK_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 23821 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL
+ CREATE SEQUENCE   "T_NOT_ENTRY_ZK_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 26741 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL
 /
  CREATE SEQUENCE   "T_PIC_MASTER_ZK_BACKUP_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL
 /
@@ -257,17 +194,17 @@ CREATE TABLE  "T_PRODUCT_MASTER_ZK_BACKUP"
  CREATE SEQUENCE   "T_PRODUCTS_ZK_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL
 /
 
---PKG
---H
+--PACKAGE-------------------------------------------
+----H-----------------------------------------
 create or replace PACKAGE  "PKG_ZK_APP" as 
  
-    --ƒƒOƒCƒ“”FØ 
+    --ãƒ­ã‚°ã‚¤ãƒ³èªè¨¼ 
     function FUNCTION_CUSTOM_AUTH ( 
     p_username in varchar2, 
     p_password in varchar2 ) 
     return boolean; 
  
-    --ÝŒÉC³ 
+    --åœ¨åº«ä¿®æ­£ 
     procedure fnc_InsertManualEditHistory 
     ( 
         strPic           IN VARCHAR2, 
@@ -277,27 +214,27 @@ create or replace PACKAGE  "PKG_ZK_APP" as
         strSuryo         IN NUMBER 
     ); 
  
-    --–¢“o˜^ƒŠƒXƒgíœ
+    --æœªç™»éŒ²ãƒªã‚¹ãƒˆå‰Šé™¤
     procedure fnc_DeleteNotEntryList; 
 
-    --’I‰µŠJŽnƒ{ƒ^ƒ“ 
+    --æ£šå¸é–‹å§‹ãƒœã‚¿ãƒ³ 
     procedure fnc_StartInventory; 
  
-    --’I‰µI—¹ƒ{ƒ^ƒ“ 
+    --æ£šå¸çµ‚äº†ãƒœã‚¿ãƒ³ 
     procedure fnc_StopInventory; 
  
-    --’I‰µŽÀÑ”½‰fƒ{ƒ^ƒ“ 
+    --æ£šå¸å®Ÿç¸¾åæ˜ ãƒœã‚¿ãƒ³ 
     procedure fnc_UpdateInventory2Stock; 
      
-    --’I‰µ‚ÌŠJŽn/I—¹‚ðŠm”F 
+    --æ£šå¸ã®é–‹å§‹/çµ‚äº†ã‚’ç¢ºèª 
     function fnc_IsInventoryOpen return boolean; 
  
 end PKG_ZK_APP;
 /
---D
+----D-----------------------------------------
 create or replace PACKAGE BODY  "PKG_ZK_APP" is 
  
-    --ƒƒOƒCƒ“”FØ 
+    --ãƒ­ã‚°ã‚¤ãƒ³èªè¨¼ 
 	function FUNCTION_CUSTOM_AUTH ( 
 	    p_username in varchar2, 
 	    p_password in varchar2 ) 
@@ -337,7 +274,7 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
 	end FUNCTION_CUSTOM_AUTH; 
  
  
-    ---ÝŒÉC³ 
+    ---åœ¨åº«ä¿®æ­£ 
     procedure fnc_InsertManualEditHistory 
     ( 
         strPic           VARCHAR2, 
@@ -347,7 +284,7 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
         strSuryo         NUMBER 
     ) 
     AS 
-        --•Ï”éŒ¾ 
+        --å¤‰æ•°å®£è¨€ 
         strPicName    T_PIC_MASTER_ZK.T_PIC_NAME%TYPE; 
  
         strLocationName    T_LOCATION_MASTER_ZK.T_LOCATION_NAME%TYPE; 
@@ -361,7 +298,7 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
  
         BEGIN 
  
-            --« ’S“–ŽÒ–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ æ‹…å½“è€…åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -376,10 +313,10 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
                 WHEN NO_DATA_FOUND THEN 
                     strPicName := ''; 
             END; 
-            --ª ’S“–ŽÒ–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ æ‹…å½“è€…åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
  
-            --« ’I–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ æ£šåã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -394,10 +331,10 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
                 WHEN NO_DATA_FOUND THEN 
                     strLocationName := ''; 
             END; 
-            --ª ’I–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ æ£šåã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
  
-            --« •i–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ å“åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -423,10 +360,10 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
                     strField4 := ''; 
                     strField5 := ''; 
             END; 
-            --ª •i–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ å“åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
  
-            --—š—ðƒŒƒR[ƒh’Ç‰Á 
+            --å±¥æ­´ãƒ¬ã‚³ãƒ¼ãƒ‰è¿½åŠ  
             INSERT INTO 
                 T_IN_OUT_ZK 
                 ( 
@@ -474,30 +411,30 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
      
     END fnc_InsertManualEditHistory; 
  
-    --–¢“o˜^ƒŠƒXƒgíœ
+    --æœªç™»éŒ²ãƒªã‚¹ãƒˆå‰Šé™¤
     procedure fnc_DeleteNotEntryList 
     is  
     BEGIN 
  
-        --–¢“o˜^ƒŠƒXƒgíœ
+        --æœªç™»éŒ²ãƒªã‚¹ãƒˆå‰Šé™¤
         DELETE
         FROM
             T_NOT_ENTRY_ZK;
  
     end fnc_DeleteNotEntryList; 
 
-    --’I‰µŠJŽnƒ{ƒ^ƒ“ 
+    --æ£šå¸é–‹å§‹ãƒœã‚¿ãƒ³ 
     procedure fnc_StartInventory 
     is  
     BEGIN 
  
-        --‘O‰ñŽÀÑ”ƒNƒŠƒA 
+        --å‰å›žå®Ÿç¸¾æ•°ã‚¯ãƒªã‚¢ 
         UPDATE 
             T_PRODUCTS_ZK 
         SET 
             LATEST_INVENTORY_DATA = 0; 
          
-        --’I‰µŠJŽnƒtƒ‰ƒOXV 
+        --æ£šå¸é–‹å§‹ãƒ•ãƒ©ã‚°æ›´æ–° 
         UPDATE 
             T_INITIAL_ZK 
         SET 
@@ -507,12 +444,12 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
  
     end fnc_StartInventory; 
  
-    --’I‰µI—¹ƒ{ƒ^ƒ“ 
+    --æ£šå¸çµ‚äº†ãƒœã‚¿ãƒ³ 
     procedure fnc_StopInventory 
     is  
     BEGIN 
          
-        --’I‰µŠJŽnƒtƒ‰ƒOXV 
+        --æ£šå¸é–‹å§‹ãƒ•ãƒ©ã‚°æ›´æ–° 
         UPDATE 
             T_INITIAL_ZK 
         SET 
@@ -523,12 +460,12 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
     end fnc_StopInventory; 
  
  
-    --’I‰µŽÀÑ”½‰fƒ{ƒ^ƒ“ 
+    --æ£šå¸å®Ÿç¸¾åæ˜ ãƒœã‚¿ãƒ³ 
     procedure fnc_UpdateInventory2Stock 
     is  
     begin 
          
-        --ŽÀÑ”XV 
+        --å®Ÿç¸¾æ•°æ›´æ–° 
         UPDATE 
             T_PRODUCTS_ZK 
         SET 
@@ -536,7 +473,7 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
  
     end fnc_UpdateInventory2Stock; 
      
-    --’I‰µƒXƒe[ƒ^ƒX‚ÌŠm”F 
+    --æ£šå¸ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®ç¢ºèª 
     function fnc_IsInventoryOpen return boolean 
     is 
       l_inv_status t_initial_zk.t_initial_value%type; 
@@ -554,38 +491,37 @@ create or replace PACKAGE BODY  "PKG_ZK_APP" is
  
 end PKG_ZK_APP;
 /
-
---H
+----H-----------------------------------------
 create or replace PACKAGE  "PKG_ZK_DELETE_OLD_DATA" IS 
  
-    --‰ß‹Žƒf[ƒ^íœ 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤ 
     procedure fnc_DeleteOldData; 
  
-    --‰ß‹Žƒf[ƒ^íœJOBì¬ 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBä½œæˆ 
     procedure fnc_JobCreate; 
  
-    --‰ß‹Žƒf[ƒ^íœJOBíœ 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBå‰Šé™¤ 
     procedure fnc_JobDelete; 
      
-    --‰ß‹Žƒf[ƒ^íœJOB—LŒø‰» 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBæœ‰åŠ¹åŒ– 
     procedure fnc_JobEnabled; 
  
-    --‰ß‹Žƒf[ƒ^íœJOB–³Œø‰» 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBç„¡åŠ¹åŒ– 
     procedure fnc_JobDisabled; 
  
 END PKG_ZK_DELETE_OLD_DATA; 
  
---“o˜^Ï‚Ý‚ÌJOBˆê——‚Í‰º‹L‚ÌSQL‚ÅŽæ“¾‚·‚é 
+--ç™»éŒ²æ¸ˆã¿ã®JOBä¸€è¦§ã¯ä¸‹è¨˜ã®SQLã§å–å¾—ã™ã‚‹ 
 --SELECT * FROM USER_SCHEDULER_JOBS;
 /
---D
+----D-----------------------------------------
 create or replace PACKAGE BODY  "PKG_ZK_DELETE_OLD_DATA" IS 
  
-    --‰ß‹Žƒf[ƒ^íœ 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤ 
     procedure fnc_DeleteOldData IS 
     BEGIN 
      
-        --T_IN_OUT_ZKíœ 
+        --T_IN_OUT_ZKå‰Šé™¤ 
         DELETE 
         FROM 
             T_IN_OUT_ZK 
@@ -597,7 +533,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DELETE_OLD_DATA" IS
     END fnc_DeleteOldData; 
  
  
-    --‰ß‹Žƒf[ƒ^íœJOBì¬ 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBä½œæˆ 
     procedure fnc_JobCreate IS 
     BEGIN 
         DBMS_SCHEDULER.CREATE_JOB( 
@@ -610,21 +546,21 @@ create or replace PACKAGE BODY  "PKG_ZK_DELETE_OLD_DATA" IS
     END fnc_JobCreate; 
    
  
-    --‰ß‹Žƒf[ƒ^íœJOBíœ 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBå‰Šé™¤ 
     procedure fnc_JobDelete IS 
     BEGIN 
         DBMS_SCHEDULER.DROP_JOB('JOB_ZK_DELETE_OLD_DATA'); 
     END fnc_JobDelete; 
  
  
-    --‰ß‹Žƒf[ƒ^íœJOB—LŒø‰» 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBæœ‰åŠ¹åŒ– 
     procedure fnc_JobEnabled IS 
     BEGIN 
         DBMS_SCHEDULER.ENABLE('JOB_ZK_DELETE_OLD_DATA'); 
     END fnc_JobEnabled; 
  
  
-    --‰ß‹Žƒf[ƒ^íœJOB–³Œø‰» 
+    --éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBç„¡åŠ¹åŒ– 
     procedure fnc_JobDisabled IS 
     BEGIN 
         DBMS_SCHEDULER.DISABLE('JOB_ZK_DELETE_OLD_DATA'); 
@@ -632,11 +568,10 @@ create or replace PACKAGE BODY  "PKG_ZK_DELETE_OLD_DATA" IS
  
 END PKG_ZK_DELETE_OLD_DATA;
 /
-
---H
+----H-----------------------------------------
 create or replace PACKAGE  "PKG_ZK_DRS" as 
  
-    --Šm’è 
+    --ç¢ºå®š 
     procedure fnc_DCMPCMP 
     ( 
         strMode          IN NUMBER, 
@@ -648,7 +583,7 @@ create or replace PACKAGE  "PKG_ZK_DRS" as
     ); 
  
  
-    --’I‰µŠm’è 
+    --æ£šå¸ç¢ºå®š 
     procedure fnc_TCMPCMP 
     ( 
         strMode          IN NUMBER, 
@@ -660,7 +595,7 @@ create or replace PACKAGE  "PKG_ZK_DRS" as
     ); 
  
  
-    --Šm’è(ƒtƒ@ƒCƒ‹‘‚«ž‚Ý) 
+    --ç¢ºå®š(ãƒ•ã‚¡ã‚¤ãƒ«æ›¸ãè¾¼ã¿) 
     procedure fnc_FCMPCMP 
     ( 
         ja               IN JSON_ARRAY_T 
@@ -668,10 +603,10 @@ create or replace PACKAGE  "PKG_ZK_DRS" as
  
 end;
 /
---D
+----D-----------------------------------------
 create or replace PACKAGE BODY  "PKG_ZK_DRS" IS 
  
-    --Šm’è 
+    --ç¢ºå®š 
     procedure fnc_DCMPCMP 
     ( 
         strMode          NUMBER, 
@@ -682,7 +617,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
         dtTime           TIMESTAMP WITH TIME ZONE
     ) 
     AS 
-        --•Ï”éŒ¾ 
+        --å¤‰æ•°å®£è¨€ 
         RECORDCOUNT   NUMBER; 
         InOut_Value   NUMBER; 
         LastInventory NUMBER; 
@@ -707,7 +642,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
             --INSERT INTO T_DEBUG (T_MESSAGE) VALUES('fnc_DCMPCMP');
             --commit;
                 
-            --« ’S“–ŽÒ–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ æ‹…å½“è€…åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -718,16 +653,16 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                 WHERE 
                     T_PIC = strPic 
                     OR upper(T_PIC) = strPic; 
-                    --Žè“®“ü—Í‚©‚ç‚Ì“ü—Í‚ð‘z’è‚µ‚ÄA‘å•¶Žš‚Å‚àŒŸõ‚µ‚Ä‚¨‚­ 
+                    --æ‰‹å‹•å…¥åŠ›ã‹ã‚‰ã®å…¥åŠ›ã‚’æƒ³å®šã—ã¦ã€å¤§æ–‡å­—ã§ã‚‚æ¤œç´¢ã—ã¦ãŠã 
  
             EXCEPTION 
                 WHEN NO_DATA_FOUND THEN 
                     strPicName := ''; 
             END; 
-            --ª ’S“–ŽÒ–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ æ‹…å½“è€…åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
  
-            --« ’I–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ æ£šåã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -742,7 +677,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                 WHEN NO_DATA_FOUND THEN 
                     strLocationName := ''; 
                     
-                    --–¢“o˜^ƒŠƒXƒg’Ç‰Á 
+                    --æœªç™»éŒ²ãƒªã‚¹ãƒˆè¿½åŠ  
                     INSERT INTO 
                         T_NOT_ENTRY_ZK 
                         ( 
@@ -763,13 +698,13 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                             strSuryo 
                         );
                         
-                    --ˆ—‚ð”²‚¯‚é
+                    --å‡¦ç†ã‚’æŠœã‘ã‚‹
                     return;
             END; 
-            --ª ’I–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ æ£šåã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
  
-            --« •i–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ å“åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -795,7 +730,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                     strField4 := ''; 
                     strField5 := ''; 
                     
-                    --–¢“o˜^ƒŠƒXƒg’Ç‰Á 
+                    --æœªç™»éŒ²ãƒªã‚¹ãƒˆè¿½åŠ  
                     INSERT INTO 
                         T_NOT_ENTRY_ZK 
                         ( 
@@ -816,16 +751,16 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                             strSuryo 
                         );
                         
-                    --ˆ—‚ð”²‚¯‚é
+                    --å‡¦ç†ã‚’æŠœã‘ã‚‹
                     return;
             END; 
-            --ª •i–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ å“åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
 
-            --« ÝŒÉ‚ðXV‚·‚é -------------------------------------------------------------------- 
+            --â†“ åœ¨åº«ã‚’æ›´æ–°ã™ã‚‹ -------------------------------------------------------------------- 
             BEGIN 
  
-                --Œ»ÝŒÉ”‚ðŽæ“¾‚·‚é 
+                --ç¾åœ¨åº«æ•°ã‚’å–å¾—ã™ã‚‹ 
                 BEGIN 
                  
                     SELECT 
@@ -849,20 +784,20 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                     LastInventory := 0; 
                 END IF; 
                 
-                --“üŒÉ” 
+                --å…¥åº«æ•° 
                 IF strMode = 1 THEN 
                     InOut_Value := TO_NUMBER(strSuryo); 
-                --oŒÉ” 
+                --å‡ºåº«æ•° 
                 ELSIF strMode = 2 THEN 
                     InOut_Value := 0 - TO_NUMBER(strSuryo); 
                 ELSE 
                     InOut_Value := 0; 
                 END IF; 
                  
-                --ÝŒÉƒe[ƒuƒ‹XV 
+                --åœ¨åº«ãƒ†ãƒ¼ãƒ–ãƒ«æ›´æ–° 
                 IF strField6 IS NOT NULL THEN 
  
-                    --ÝŒÉ”XV 
+                    --åœ¨åº«æ•°æ›´æ–° 
                     UPDATE 
                         T_PRODUCTS_ZK 
                     SET 
@@ -874,7 +809,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
 
                     ELSE 
  
-                    --ÝŒÉƒŒƒR[ƒh’Ç‰Á 
+                    --åœ¨åº«ãƒ¬ã‚³ãƒ¼ãƒ‰è¿½åŠ  
                     INSERT INTO 
                         T_PRODUCTS_ZK 
                         ( 
@@ -913,7 +848,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
             END; 
  
  
-            --—š—ðƒŒƒR[ƒh’Ç‰Á 
+            --å±¥æ­´ãƒ¬ã‚³ãƒ¼ãƒ‰è¿½åŠ  
             INSERT INTO 
                 T_IN_OUT_ZK 
                 ( 
@@ -964,7 +899,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
         END fnc_DCMPCMP; 
          
          
-    --’I‰µŠm’è 
+    --æ£šå¸ç¢ºå®š 
     procedure fnc_TCMPCMP 
     ( 
         strMode          NUMBER, 
@@ -975,7 +910,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
         dtTime           TIMESTAMP WITH TIME ZONE
     ) 
     AS 
-        --•Ï”éŒ¾ 
+        --å¤‰æ•°å®£è¨€ 
         RECORDCOUNT   NUMBER; 
         InOut_Value   NUMBER; 
         LastInventory NUMBER; 
@@ -993,7 +928,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
  
         BEGIN 
  
-            --« ’S“–ŽÒ–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ æ‹…å½“è€…åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -1004,16 +939,16 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                 WHERE 
                     T_PIC = strPic 
                     OR upper(T_PIC) = strPic; 
-                    --Žè“®“ü—Í‚©‚ç‚Ì“ü—Í‚ð‘z’è‚µ‚ÄA‘å•¶Žš‚Å‚àŒŸõ‚µ‚Ä‚¨‚­ 
+                    --æ‰‹å‹•å…¥åŠ›ã‹ã‚‰ã®å…¥åŠ›ã‚’æƒ³å®šã—ã¦ã€å¤§æ–‡å­—ã§ã‚‚æ¤œç´¢ã—ã¦ãŠã 
  
             EXCEPTION 
                 WHEN NO_DATA_FOUND THEN 
                     strPicName := ''; 
             END; 
-            --ª ’S“–ŽÒ–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ æ‹…å½“è€…åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
  
-            --« ’I–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ æ£šåã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -1028,7 +963,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                 WHEN NO_DATA_FOUND THEN 
                     strLocationName := ''; 
                     
-                    --–¢“o˜^ƒŠƒXƒg’Ç‰Á 
+                    --æœªç™»éŒ²ãƒªã‚¹ãƒˆè¿½åŠ  
                     INSERT INTO 
                         T_NOT_ENTRY_ZK 
                         ( 
@@ -1049,13 +984,13 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                             strSuryo 
                         );
                         
-                    --ˆ—‚ð”²‚¯‚é
+                    --å‡¦ç†ã‚’æŠœã‘ã‚‹
                     return;
             END; 
-            --ª ’I–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ æ£šåã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
  
-            --« •i–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†“ å“åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
             BEGIN 
  
                 SELECT 
@@ -1081,7 +1016,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                     strField4 := ''; 
                     strField5 := ''; 
                     
-                    --–¢“o˜^ƒŠƒXƒg’Ç‰Á 
+                    --æœªç™»éŒ²ãƒªã‚¹ãƒˆè¿½åŠ  
                     INSERT INTO 
                         T_NOT_ENTRY_ZK 
                         ( 
@@ -1102,16 +1037,16 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                             strSuryo 
                         );
                         
-                    --ˆ—‚ð”²‚¯‚é
+                    --å‡¦ç†ã‚’æŠœã‘ã‚‹
                     return;
             END; 
-            --ª •i–¼‚ðŽæ“¾‚µ‚Ä‚¨‚­ -------------------------------------------------------------------- 
+            --â†‘ å“åã‚’å–å¾—ã—ã¦ãŠã -------------------------------------------------------------------- 
  
  
-            --« ŽÀ’I”‚ðXV‚·‚é -------------------------------------------------------------------- 
+            --â†“ å®Ÿæ£šæ•°ã‚’æ›´æ–°ã™ã‚‹ -------------------------------------------------------------------- 
             BEGIN 
  
-                --Œ»ÝŒÉ”‚ðŽæ“¾‚·‚é 
+                --ç¾åœ¨åº«æ•°ã‚’å–å¾—ã™ã‚‹ 
                 BEGIN 
                  
                     SELECT 
@@ -1135,13 +1070,13 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                     LastInventory := 0; 
                 END IF; 
                  
-                --ŽÀ’I” 
+                --å®Ÿæ£šæ•° 
                 InOut_Value := TO_NUMBER(strSuryo); 
  
-                --ŽÀ’I”ƒe[ƒuƒ‹XV 
+                --å®Ÿæ£šæ•°ãƒ†ãƒ¼ãƒ–ãƒ«æ›´æ–° 
                 IF strLatestInventory IS NOT NULL THEN 
  
-                    --ŽÀ’I”XV 
+                    --å®Ÿæ£šæ•°æ›´æ–° 
                     UPDATE 
                         T_PRODUCTS_ZK 
                     SET 
@@ -1153,7 +1088,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
  
                 ELSE 
  
-                    --ÝŒÉƒŒƒR[ƒh’Ç‰Á 
+                    --åœ¨åº«ãƒ¬ã‚³ãƒ¼ãƒ‰è¿½åŠ  
                     INSERT INTO 
                         T_PRODUCTS_ZK 
                         ( 
@@ -1196,13 +1131,13 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
         END fnc_TCMPCMP;  
          
  
-    --Šm’è(ƒtƒ@ƒCƒ‹‘‚«ž‚Ý) 
+    --ç¢ºå®š(ãƒ•ã‚¡ã‚¤ãƒ«æ›¸ãè¾¼ã¿) 
     procedure fnc_FCMPCMP 
     ( 
         ja          JSON_ARRAY_T 
     ) 
     AS 
-        --•Ï”éŒ¾ 
+        --å¤‰æ•°å®£è¨€ 
         je JSON_ELEMENT_T; 
         jo JSON_OBJECT_T; 
  
@@ -1220,20 +1155,20 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
         DELETE FROM T_DEBUG;
         commit;
 
-        --”z—ñ•ª‚Ìˆ—‚ð‚·‚é 
+        --é…åˆ—åˆ†ã®å‡¦ç†ã‚’ã™ã‚‹ 
         for i in 0..ja.get_size - 1 
         loop 
  
-            --JSON‚Ì”z—ñ‚©‚ç‚Ps‚¸‚ÂŽæ‚èo‚· 
+            --JSONã®é…åˆ—ã‹ã‚‰ï¼‘è¡Œãšã¤å–ã‚Šå‡ºã™ 
             je := ja.get(i); 
             if (je.is_object) then 
  
-                --JSONƒIƒuƒWƒFƒNƒg‚É•ÏŠ· 
+                --JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ› 
                 jo := treat(je as json_object_t); 
  
-                --ƒIƒuƒWƒFƒNƒg‚ðŽæ“¾ 
+                --ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾— 
                 strRecord := jo.get('record').to_string; 
-                strRecord := REPLACE(strRecord, '"', '');    --æ“ª‚Æ––”ö‚Ìƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‘Îô 
+                strRecord := REPLACE(strRecord, '"', '');    --å…ˆé ­ã¨æœ«å°¾ã®ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³å¯¾ç­– 
                 strTime := strtoken(strRecord, ',', 1); 
                 strBTID := strtoken(strRecord, ',', 2); 
                 strMode := strtoken(strRecord, ',', 3); 
@@ -1242,12 +1177,12 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
                 strField1 := strtoken(strRecord, ',', 6); 
                 strSuryo := strtoken(strRecord, ',', 7); 
                 
-                --‘‚«ž‚Ý
+                --æ›¸ãè¾¼ã¿
                 IF strMode != '3' THEN
-                    --“üŒÉ/oŒÉ
+                    --å…¥åº«/å‡ºåº«
                     PKG_ZK_DRS.fnc_DCMPCMP(TO_NUMBER(strMode), strPic, strLocationId, strField1, strSuryo, TO_TIMESTAMP_TZ(CONCAT(strTime, ' +09:00'), 'YYYY-MM-DD HH24:MI:SS TZH:TZM')); 
                 ELSE
-                    --’I‰µ
+                    --æ£šå¸
                     PKG_ZK_DRS.fnc_TCMPCMP(TO_NUMBER(strMode), strPic, strLocationId, strField1, strSuryo, TO_TIMESTAMP_TZ(CONCAT(strTime, ' +09:00'), 'YYYY-MM-DD HH24:MI:SS TZH:TZM')); 
                 END IF;
 
@@ -1259,40 +1194,37 @@ create or replace PACKAGE BODY  "PKG_ZK_DRS" IS
  
 END PKG_ZK_DRS;
 /
-
---H
+----H-----------------------------------------
 create or replace PACKAGE  "PKG_ZK_RESET_DEMO_DATA" IS 
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒg
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆ
     procedure fnc_ResetDemoData; 
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒgJOBì¬ 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆJOBä½œæˆ 
     procedure fnc_JobCreate; 
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒgJOBíœ 
-    procedure fnc_JobDele
-    te; 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆJOBå‰Šé™¤ 
+    procedure fnc_JobDelete; 
      
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒgJOB—LŒø‰» 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆJOBæœ‰åŠ¹åŒ– 
     procedure fnc_JobEnabled; 
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒgJOB–³Œø‰» 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆJOBç„¡åŠ¹åŒ– 
     procedure fnc_JobDisabled; 
  
 END PKG_ZK_RESET_DEMO_DATA;
  
---“o˜^Ï‚Ý‚ÌJOBˆê——‚Í‰º‹L‚ÌSQL‚ÅŽæ“¾‚·‚é 
+--ç™»éŒ²æ¸ˆã¿ã®JOBä¸€è¦§ã¯ä¸‹è¨˜ã®SQLã§å–å¾—ã™ã‚‹ 
 --SELECT * FROM USER_SCHEDULER_JOBS; 
 /
-
---D
+----D-----------------------------------------
 create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS 
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒg 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆ 
     procedure fnc_ResetDemoData
     IS
    
-        --•Ï”éŒ¾ 
+        --å¤‰æ•°å®£è¨€ 
         RECORDCOUNT   NUMBER; 
         dtLatestDate   T_IN_OUT_ZK.T_TIME%TYPE; 
         DateCount   NUMBER; 
@@ -1302,7 +1234,7 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
         --debug
         DELETE FROM T_DEBUG;
 
-        --T_***_BACKUPƒe[ƒuƒ‹‚æ‚èƒf[ƒ^‚ð–ß‚·
+        --T_***_BACKUPãƒ†ãƒ¼ãƒ–ãƒ«ã‚ˆã‚Šãƒ‡ãƒ¼ã‚¿ã‚’æˆ»ã™
         DELETE from T_INITIAL_ZK;
         INSERT INTO T_INITIAL_ZK SELECT * FROM T_INITIAL_ZK_BACKUP;
 
@@ -1323,9 +1255,9 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
      
         DELETE from T_NOT_ENTRY_ZK;
 
---« T_IN_OUT_ZK‚Ì“ú•t‚ðV‚µ‚­‚·‚é -------------------------------------------------------------------- 
+--â†“ T_IN_OUT_ZKã®æ—¥ä»˜ã‚’æ–°ã—ãã™ã‚‹ -------------------------------------------------------------------- 
 
-        -- T_IN_OUT_ZK‚ÌƒŒƒR[ƒh‚ª‚ ‚é‚©‚Ç‚¤‚©
+        -- T_IN_OUT_ZKã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚ã‚‹ã‹ã©ã†ã‹
         BEGIN
             select
                 COUNT(*) 
@@ -1334,7 +1266,7 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
                 T_IN_OUT_ZK;
         END;
         
-        --‚à‚µƒf[ƒ^‚ª‚È‚¯‚ê‚Î”²‚¯‚é
+        --ã‚‚ã—ãƒ‡ãƒ¼ã‚¿ãŒãªã‘ã‚Œã°æŠœã‘ã‚‹
         IF RECORDCOUNT = 0 then
             return;
         END IF;
@@ -1342,7 +1274,7 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
         --debug
         --INSERT INTO T_DEBUG (T_MESSAGE) VALUES(TO_CHAR(RECORDCOUNT));
 
-        --Å‚àV‚µ‚¢“ú•t‚ðŽæ“¾
+        --æœ€ã‚‚æ–°ã—ã„æ—¥ä»˜ã‚’å–å¾—
         BEGIN
             SELECT
                 MAX(T_TIME)
@@ -1353,7 +1285,7 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
         --debug
         --INSERT INTO T_DEBUG (T_MESSAGE) VALUES(TO_CHAR(dtLatestDate));
 
-        --–{“ú‚Æ‚Ì·•ª‚ðŽæ“¾
+        --æœ¬æ—¥ã¨ã®å·®åˆ†ã‚’å–å¾—
         BEGIN
             SELECT
                 SYSDATE - CAST(dtLatestDate AS DATE)
@@ -1365,13 +1297,13 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
         --debug
         --INSERT INTO T_DEBUG (T_MESSAGE) VALUES(TO_CHAR(DateCount));
         
-        --“ú•t‚ðXV
+        --æ—¥ä»˜ã‚’æ›´æ–°
         UPDATE
             T_IN_OUT_ZK
         SET
             T_TIME = FROM_TZ (cast(T_TIME + DateCount as timestamp), 'ASIA/TOKYO');
         
-        --Å‚àV‚µ‚¢“ú•t‚ðŽæ“¾
+        --æœ€ã‚‚æ–°ã—ã„æ—¥ä»˜ã‚’å–å¾—
         BEGIN
             SELECT
                 MAX(T_TIME)
@@ -1382,12 +1314,12 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
         --debug
         --INSERT INTO T_DEBUG (T_MESSAGE) VALUES(TO_CHAR(dtLatestDate));
 
-        --ª T_IN_OUT_ZK‚Ì“ú•t‚ðV‚µ‚­‚·‚é -------------------------------------------------------------------- 
+        --â†‘ T_IN_OUT_ZKã®æ—¥ä»˜ã‚’æ–°ã—ãã™ã‚‹ -------------------------------------------------------------------- 
 
     END fnc_ResetDemoData; 
  
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒgJOBì¬ 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆJOBä½œæˆ 
     procedure fnc_JobCreate IS 
     BEGIN 
         DBMS_SCHEDULER.CREATE_JOB( 
@@ -1400,21 +1332,21 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
     END fnc_JobCreate; 
    
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒgJOBíœ 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆJOBå‰Šé™¤ 
     procedure fnc_JobDelete IS 
     BEGIN 
         DBMS_SCHEDULER.DROP_JOB('JOB_ZK_RESET_DEMO_DATA'); 
     END fnc_JobDelete; 
  
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒgJOB—LŒø‰» 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆJOBæœ‰åŠ¹åŒ– 
     procedure fnc_JobEnabled IS 
     BEGIN 
         DBMS_SCHEDULER.ENABLE('JOB_ZK_RESET_DEMO_DATA'); 
     END fnc_JobEnabled; 
  
  
-    --ƒfƒ‚ƒf[ƒ^ƒŠƒZƒbƒgJOB–³Œø‰» 
+    --ãƒ‡ãƒ¢ãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆJOBç„¡åŠ¹åŒ– 
     procedure fnc_JobDisabled IS 
     BEGIN 
         DBMS_SCHEDULER.DISABLE('JOB_ZK_RESET_DEMO_DATA'); 
@@ -1422,10 +1354,80 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
  
 END PKG_ZK_RESET_DEMO_DATA; 
 /
---ƒf[ƒ^ƒZƒbƒg
---’S“–ŽÒƒ}ƒXƒ^‚É‰Šúƒf[ƒ^‚ð‘}“üT_PICFadmin T_PIC_NAME:admin T_PASSWORD:39393939(16i•¬•¶Žš[9999])
+--TARGET---------------------------------------
+CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_IN_OUT_ZK" 
+  before insert on "T_IN_OUT_ZK"               
+  for each row  
+begin   
+  if :new."ID" is null then 
+    select "T_IN_OUT_ZK_SEQ".nextval into :new."ID" from sys.dual; 
+  end if; 
+end; 
+
+/
+ALTER TRIGGER  "bi_T_IN_OUT_ZK" ENABLE
+/
+CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_IN_OUT_ZK_BACKUP" 
+  before insert on "T_IN_OUT_ZK_BACKUP"               
+  for each row  
+begin   
+  if :new."ID" is null then 
+    select "T_IN_OUT_ZK_BACKUP_SEQ".nextval into :new."ID" from sys.dual; 
+  end if; 
+end; 
+
+/
+ALTER TRIGGER  "bi_T_IN_OUT_ZK_BACKUP" ENABLE
+/
+CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_NOT_ENTRY_ZK" 
+  before insert on "T_NOT_ENTRY_ZK"               
+  for each row  
+begin   
+  if :new."ID" is null then 
+    select "T_NOT_ENTRY_ZK_SEQ".nextval into :new."ID" from sys.dual; 
+  end if; 
+end;
+
+/
+ALTER TRIGGER  "bi_T_NOT_ENTRY_ZK" ENABLE
+/
+CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_PRODUCTS_ZK" 
+  before insert on "T_PRODUCTS_ZK"               
+  for each row  
+begin   
+  if :new."ID" is null then 
+    select "T_PRODUCTS_ZK_SEQ".nextval into :new."ID" from sys.dual; 
+  end if; 
+end; 
+
+/
+ALTER TRIGGER  "bi_T_PRODUCTS_ZK" ENABLE
+/
+CREATE OR REPLACE EDITIONABLE TRIGGER  "bi_T_PRODUCTS_ZK_BACKUP" 
+  before insert on "T_PRODUCTS_ZK_BACKUP"               
+  for each row  
+begin   
+  if :new."ID" is null then 
+    select "T_PRODUCTS_ZK_BACKUP_SEQ".nextval into :new."ID" from sys.dual; 
+  end if; 
+end; 
+
+/
+ALTER TRIGGER  "bi_T_PRODUCTS_ZK_BACKUP" ENABLE
+/
+--ãã®ä»–
+--éŽåŽ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤JOBã®ä½œæˆï¼†æœ‰åŠ¹åŒ–ã‚’å®Ÿè¡Œ
+begin
+ PKG_ZK_DELETE_OLD_DATA.fnc_JobCreate;
+ PKG_ZK_DELETE_OLD_DATA.fnc_JobEnabled;
+end;
+/
+--æ‹…å½“è€…ãƒžã‚¹ã‚¿ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥T_PICï¼šadmin T_PIC_NAME:admin T_PASSWORD:39393939(16é€²ï¼†å°æ–‡å­—[9999])
 INSERT INTO T_PIC_MASTER_ZK ( T_PIC,T_PIC_NAME,T_PASSWORD) VALUES ('admin','admin','39393939');
-/
---ŠÂ‹«Ý’èƒe[ƒuƒ‹‚É’I‰µŠJŽnƒtƒ‰ƒO‚Ì’l‚ð’Ç‰Á
-INSERT INTO T_INITIAL_ZK ( T_INITIAL_ID,T_INITIAL_VALUE,T_CONTENTS) VALUES ('26','0','’I‰µŠJŽnƒtƒ‰ƒO');
-/
+
+INSERT INTO T_PIC_MASTER_ZK_BACKUP ( T_PIC,T_PIC_NAME,T_PASSWORD) VALUES ('admin','admin','39393939');
+
+--ç’°å¢ƒè¨­å®šãƒ†ãƒ¼ãƒ–ãƒ«ã«æ£šå¸é–‹å§‹ãƒ•ãƒ©ã‚°ã®å€¤ã‚’è¿½åŠ 
+INSERT INTO T_INITIAL_ZK ( T_INITIAL_ID,T_INITIAL_VALUE,T_CONTENTS) VALUES ('26','0','æ£šå¸é–‹å§‹ãƒ•ãƒ©ã‚°');
+
+INSERT INTO T_INITIAL_ZK_BACKUP ( T_INITIAL_ID,T_INITIAL_VALUE,T_CONTENTS) VALUES ('26','0','æ£šå¸é–‹å§‹ãƒ•ãƒ©ã‚°');
