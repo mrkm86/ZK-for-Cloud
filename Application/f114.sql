@@ -12289,7 +12289,7 @@ wwv_flow_api.create_page_item(
 ,p_name=>'P101_VERSION'
 ,p_item_sequence=>40
 ,p_item_plug_id=>wwv_flow_api.id(22304152655076528955)
-,p_prompt=>'Ver0.0.0'
+,p_prompt=>'Ver0.0.1'
 ,p_display_as=>'NATIVE_DISPLAY_ONLY'
 ,p_field_template=>wwv_flow_api.id(22304140884461528922)
 ,p_item_template_options=>'#DEFAULT#'
