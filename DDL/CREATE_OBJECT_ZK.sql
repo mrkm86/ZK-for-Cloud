@@ -539,7 +539,7 @@ create or replace PACKAGE BODY  "PKG_ZK_DELETE_OLD_DATA" IS
         DBMS_SCHEDULER.CREATE_JOB( 
             job_name => 'JOB_ZK_DELETE_OLD_DATA',  
             job_type => 'STORED_PROCEDURE',  
-            job_action => 'PKG_DELETE_OLD_DATA.fnc_DeleteOldData',  
+            job_action => 'PKG_ZK_DELETE_OLD_DATA.fnc_DeleteOldData',  
             start_date => TO_TIMESTAMP_TZ(CONCAT(TO_CHAR(CURRENT_DATE, 'yyyy/MM/dd'), ' 00:00:00 +09:00'),'yyyy/mm/dd hh24:mi:ss TZH:TZM'),
             repeat_interval => 'FREQ=DAILY;',  
             auto_drop => FALSE, enabled => TRUE); 
@@ -1325,7 +1325,7 @@ create or replace PACKAGE BODY  "PKG_ZK_RESET_DEMO_DATA" IS
         DBMS_SCHEDULER.CREATE_JOB( 
         job_name => 'JOB_ZK_RESET_DEMO_DATA',  
         job_type => 'STORED_PROCEDURE',  
-        job_action => 'PKG_RESET_DEMO_DATA.fnc_ResetDemoData',  
+        job_action => 'PKG_ZK_RESET_DEMO_DATA.fnc_ResetDemoData',  
         start_date => TO_TIMESTAMP_TZ(CONCAT(TO_CHAR(CURRENT_DATE, 'yyyy/MM/dd'), ' 00:00:00 +09:00'),'yyyy/mm/dd hh24:mi:ss TZH:TZM'),
         repeat_interval => 'FREQ=DAILY;BYHOUR=0;',  
         auto_drop => FALSE, enabled => TRUE); 
